@@ -374,8 +374,6 @@ public class BoarGiftInteractive extends UserInteractive implements Synchronizab
                         this.giftWinner = boarUser.getUser();
                         this.giftWinnerValue = userVal;
                     }
-
-                    boarUser.giftQuery().updateGiftHandicap(connection, this.giftTimes.get(boarUser.getUser()));
                 }
             } else if (this.outcomeType == null) {
                 try (Connection connection = DataUtil.getConnection()) {
@@ -416,8 +414,12 @@ public class BoarGiftInteractive extends UserInteractive implements Synchronizab
                         QuestUtil.sendQuestClaimMessage(
                             this.giftInteractions.get(this.giftWinner).getHook(), this.openerQuestInfos
                         );
+
+                        boarUser.giftQuery().updateGiftHandicap(connection, this.giftTimes.get(boarUser.getUser()), true);
                     } else {
                         QuestUtil.sendQuestClaimMessage(this.hook, this.senderQuestInfos);
+
+                        boarUser.giftQuery().updateGiftHandicap(connection, this.giftTimes.get(boarUser.getUser()), false);
                     }
                 }
             }

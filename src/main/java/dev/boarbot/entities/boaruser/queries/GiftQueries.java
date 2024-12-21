@@ -40,7 +40,7 @@ public class GiftQueries implements Configured {
         return handicap;
     }
 
-    public void updateGiftHandicap(Connection connection, long value) throws SQLException {
+    public void updateGiftHandicap(Connection connection, long value, boolean winner) throws SQLException {
         this.boarUser.baseQuery().addUser(connection);
         this.boarUser.forceSynchronized();
 
@@ -62,6 +62,10 @@ public class GiftQueries implements Configured {
                     }
                 }
             }
+        }
+
+        if (!winner && handicapValue > boarUser.giftQuery().getGiftHandicap(connection)) {
+            handicapValue = boarUser.giftQuery().getGiftHandicap(connection);
         }
 
         String updateQuery = """
